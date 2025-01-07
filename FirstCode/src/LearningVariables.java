@@ -6,7 +6,6 @@ public class LearningVariables {
 
         String name = "Augusto S";
         System.out.println(name);
-
         char x = 'A';   // 16 bits (not 8). It's bigger to represent UTF-16
         for (int i = 0; i < 26; i++) {
             System.out.print(x + " ");
@@ -15,6 +14,25 @@ public class LearningVariables {
         x = (char) (x - 1);
         System.out.println(x);
 
+        System.out.println("Byte range: "+ Byte.MIN_VALUE + " to " + Byte.MAX_VALUE);
+
+        long longNumber = 100L; // L to say it's not an int and treat it as a long
+        float fx = 23.2F;   // F to say it's not a double and treat it as a float
+        // float is 32 bits
+        // double is 64 bits
+
+
+        short shortV = 1, shortV2 = 2;
+
+        // Casting
+            // convert a number of one type to another
+            // using the line 14 as an example. Java returns the result of x - 1 as an integer
+            // to convert it to a char, we use the (char) (x - 1)
+
+        boolean isValid = true, hasName = false;
+
+        System.out.println(isValid);
+        System.out.println(hasName);
 
     }
 }
