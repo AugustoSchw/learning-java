@@ -34,5 +34,17 @@ public class LearningVariables {
         System.out.println(isValid);
         System.out.println(hasName);
 
+        char firstC = 'A', secondC = 'B';
+
+        System.out.println(firstC + secondC);   // treats it like a number
+
+        // to treat it as a string, you can put an empty string at the start of the print, so it knows to treat all as a string
+        // the same goes for types like int
+        System.out.println("" + firstC + secondC);  // OUT: AB
+        double result = Math.pow(2, 5);
+        System.out.println(result);
+
+
+
     }
 }
