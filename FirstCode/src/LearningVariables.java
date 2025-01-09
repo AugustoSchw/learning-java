@@ -24,6 +24,10 @@ public class LearningVariables {
 
         short shortV = 1, shortV2 = 2;
 
+
+
+
+
         // Casting
             // convert a number of one type to another
             // using the line 14 as an example. Java returns the result of x - 1 as an integer
