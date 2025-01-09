@@ -40,7 +40,7 @@ public class TileManager {
 
     public void loadMap() {
         try {
-            InputStream is = getClass().getResourceAsStream("maps/map0.txt");
+            InputStream is = getClass().getResourceAsStream("/maps/map0.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
@@ -65,7 +65,7 @@ public class TileManager {
             br.close();
 
         } catch (Exception e) {
-
+            System.out.println("erro");
         }
     }
     public void draw(Graphics2D g2) {
