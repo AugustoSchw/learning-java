@@ -16,6 +16,7 @@ public class Player extends Entity {
         this.keyH = keyH;
 
         setDefaultValues();
+        //initBuffers();
         getPlayerImage();
     }
 
@@ -40,7 +41,7 @@ public class Player extends Entity {
                 direction = "left";
                 x -= speed;
             }
-            else if (keyH.rightPressed) {
+            else {
                 direction = "right";
                 x += speed;
             }
@@ -59,102 +60,41 @@ public class Player extends Entity {
         } else {    // no "wasd" key is pressed, it stays idle
             spriteNum = 1;  // to stay idle
         }
-
-
-
     }
 
     public void getPlayerImage() {
         try {
+            up[0] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/idleU1.png"));
+            down[0] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/idleD1.png"));
+            left[0] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/idleL1.png"));
+            right[0] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/idleR1.png"));
 
-            up1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/idleU1.png"));
-            up2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingU1.png"));
-            up3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingU2.png"));
-            up4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingU3.png"));
-
-
-            down1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/idleD1.png"));
-            down2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingD1.png"));
-            down3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingD2.png"));
-            down4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingD3.png"));
-
-            left1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/idleL1.png"));
-            left2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingL1.png"));
-            left3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingL2.png"));
-            left4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingL3.png"));
-
-            right1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/idleR1.png"));
-            right2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingR1.png"));
-            right3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingR2.png"));
-            right4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingR3.png"));
-
-
+            for (int i = 1; i < 4; i++) {
+                up[i] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingU" + i +".png"));
+                down[i] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingD"+ i +".png"));
+                left[i] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingL"+ i +".png"));
+                right[i] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walkingR"+ i + ".png"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void draw(Graphics2D g2) {
-
         BufferedImage image = null;
 
         switch (direction) {
             case "up":
-                if (spriteNum == 1) {
-                    image = up1;
-                }
-                else if (spriteNum == 2) {
-                    image = up2;
-                }
-                else if (spriteNum == 3) {
-                    image = up3;
-                }
-                else if (spriteNum == 4) {
-                    image = up4;
-                }
-
+                image = up[(spriteNum - 1)];
                 break;
             case "down":
-                if (spriteNum == 1) {
-                    image = down1;
-                }
-                else if (spriteNum == 2) {
-                    image = down2;
-                }
-                else if (spriteNum == 3) {
-                    image = down3;
-                }
-                else if (spriteNum == 4) {
-                    image = down4;
-                }
+                image = down[(spriteNum - 1)];
                 break;
             case "left":
-                if (spriteNum == 1) {
-                    image = left1;
-                }
-                else if (spriteNum == 2) {
-                    image = left2;
-                }
-                else if (spriteNum == 3) {
-                    image = left3;
-                }
-                else if (spriteNum == 4) {
-                    image = left4;
-                }
+                image = left[(spriteNum - 1)];
                 break;
             case "right":
-                if (spriteNum == 1) {
-                    image = right1;
-                }
-                else if (spriteNum == 2) {
-                    image = right2;
-                }
-                else if (spriteNum == 3) {
-                    image = right3;
-                }
-                else if (spriteNum == 4) {
-                    image = right4;
-                }
+                image = right[(spriteNum - 1)];
                 break;
         }
 
