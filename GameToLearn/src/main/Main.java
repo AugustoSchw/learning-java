@@ -4,10 +4,11 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        initialize();
+        GamePanel gamePanel = initialize();
+        gamePanel.startGameThread();
     }
 
-    private static void initialize() {
+    private static GamePanel initialize() {
         System.out.println("test");
 
         JFrame window = new JFrame();
@@ -21,5 +22,6 @@ public class Main {
 
         window.setLocationRelativeTo(null); // shown at the center of screen
         window.setVisible(true);
+        return gamePanel;
     }
 }
