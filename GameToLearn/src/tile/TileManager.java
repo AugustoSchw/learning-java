@@ -13,7 +13,7 @@ public class TileManager {
     GamePanel gp;
     Tile[] tile;
     int mapTileNumber[] [];
-
+    int overlayTileNumber[][];
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -21,9 +21,9 @@ public class TileManager {
         tile = new Tile[1440]; // 10 types of tiles
         mapTileNumber = new int[gp.maxScreenCol] [gp.maxScreenRow];
         getTileImage();
-        loadMap("/maps/world.txt");
-
-
+        loadMap("/maps/world.txt", "world");
+        overlayTileNumber = new int[gp.maxScreenCol][gp.maxScreenRow];
+        loadMap("/maps/overlay.txt", "overlay");
         // other loadMap calls can be made below, so there is a "depth"
     }
 
@@ -56,7 +56,7 @@ public class TileManager {
         }
     }
 
-    public void loadMap(String filePath) {
+    public void loadMap(String filePath, String type) {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -71,8 +71,11 @@ public class TileManager {
                     String numbers[] = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
-
-                    mapTileNumber[col][row] = num;
+                    if (type == "world") {
+                        mapTileNumber[col][row] = num;
+                    } else if (type == "overlay") {
+                        overlayTileNumber[col][row] = num;
+                    }
                     col++;
                 }
                 if (col == gp.maxScreenCol) {
@@ -91,9 +94,15 @@ public class TileManager {
 
         while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
             int tileNum = mapTileNumber[col][row];
+            int overlayNum = overlayTileNumber[col][row];
 
-            g2.drawImage(tile[tileNum].image, x, y, gp.getTileSize(), gp.getTileSize(), null);
+            // fills the tile. First with the background (mapTileNumber), and then the overlay above it
+            g2.drawImage(tile[tileNum].image, x, y, gp.getTileSize(), gp.getTileSize(), null);  // background
+            if (overlayNum != -1) { // -1 means there is no overlay in that tile
+                g2.drawImage(tile[overlayNum].image, x, y, gp.getTileSize(), gp.getTileSize(), null);   // overlay
+            }
             col++;
+
             x += gp.getTileSize();
 
             if (col == gp.maxScreenCol) {
