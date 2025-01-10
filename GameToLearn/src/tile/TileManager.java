@@ -18,29 +18,47 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
-        tile = new Tile[10]; // 10 types of tiles
+        tile = new Tile[1440]; // 10 types of tiles
         mapTileNumber = new int[gp.maxScreenCol] [gp.maxScreenRow];
         getTileImage();
-        loadMap();
+        loadMap("/maps/world.txt");
+
+
+        // other loadMap calls can be made below, so there is a "depth"
     }
 
     public void getTileImage() {
         try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/grass1.png"));
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/wall1.png"));
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/water1.png"));
+            for (int i = 0; i < 1440; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/tile_"+i+".png"));
+            }
+
+//            tile[0] = new Tile(); // tile[i] = new Tile()   -----   tile[i].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/tile_"+i+".png"));
+//            tile[0].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/grass1.png"));
+//            tile[1] = new Tile();
+//            tile[1].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/wall1.png"));
+//            tile[2] = new Tile();
+//            tile[2].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/water1.png"));
+//            tile[3] = new Tile();
+//            tile[3].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/dirt1.png"));
+//            tile[4] = new Tile();
+//            tile[4].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/sand1.png"));
+//            tile[5] = new Tile();
+//            tile[5].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/sandBLeft.png"));
+//            tile[6] = new Tile();
+//            tile[6].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/sandBRight.png"));
+//            tile[7] = new Tile();
+//            tile[7].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/sandDown.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadMap() {
+    public void loadMap(String filePath) {
         try {
-            InputStream is = getClass().getResourceAsStream("/maps/map0.txt");
+            InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
@@ -65,7 +83,7 @@ public class TileManager {
             br.close();
 
         } catch (Exception e) {
-            System.out.println("erro");
+            System.out.println("error");
         }
     }
     public void draw(Graphics2D g2) {
