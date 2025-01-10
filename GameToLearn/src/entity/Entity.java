@@ -3,7 +3,7 @@ package entity;
 import java.awt.image.BufferedImage;
 
 public class Entity {
-    public int x, y, speed;
+    public int worldX, worldY, speed;
 
     public BufferedImage[] right = new BufferedImage[5];
     public BufferedImage[] left = new BufferedImage[5];

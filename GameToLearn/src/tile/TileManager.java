@@ -19,10 +19,10 @@ public class TileManager {
         this.gp = gp;
 
         tile = new Tile[1440]; // 10 types of tiles
-        mapTileNumber = new int[gp.maxScreenCol] [gp.maxScreenRow];
+        mapTileNumber = new int[gp.maxWorldCol] [gp.maxWorldRow];
         getTileImage();
         loadMap("/maps/world.txt", "world");
-        overlayTileNumber = new int[gp.maxScreenCol][gp.maxScreenRow];
+        overlayTileNumber = new int[gp.maxWorldCol] [gp.maxWorldRow];
         loadMap("/maps/overlay.txt", "overlay");
         // other loadMap calls can be made below, so there is a "depth"
     }
@@ -64,10 +64,10 @@ public class TileManager {
             int col = 0;
             int row = 0;
 
-            while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
+            while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
                 String line = br.readLine();
 
-                while (col < gp.maxScreenCol) {
+                while (col < gp.maxWorldCol) {
                     String numbers[] = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
@@ -78,7 +78,7 @@ public class TileManager {
                     }
                     col++;
                 }
-                if (col == gp.maxScreenCol) {
+                if (col == gp.maxWorldCol) {
                     col = 0;
                     row++;
                 }
@@ -90,26 +90,33 @@ public class TileManager {
         }
     }
     public void draw(Graphics2D g2) {
-        int col = 0, row = 0, x = 0, y = 0;
+        int worldCol = 0, worldRow = 0;
 
-        while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
-            int tileNum = mapTileNumber[col][row];
-            int overlayNum = overlayTileNumber[col][row];
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+            int tileNum = mapTileNumber[worldCol][worldRow];
+            int overlayNum = overlayTileNumber[worldCol][worldRow];
 
-            // fills the tile. First with the background (mapTileNumber), and then the overlay above it
-            g2.drawImage(tile[tileNum].image, x, y, gp.getTileSize(), gp.getTileSize(), null);  // background
-            if (overlayNum != -1) { // -1 means there is no overlay in that tile
-                g2.drawImage(tile[overlayNum].image, x, y, gp.getTileSize(), gp.getTileSize(), null);   // overlay
+            int worldX = worldCol * gp.getTileSize();
+            int worldY = worldRow * gp.getTileSize();
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+
+            if (worldX + gp.getTileSize() > gp.player.worldX - gp.player.screenX && worldX - gp.getTileSize() < gp.player.worldX + gp.player.screenX &&     // just draw the tiles in the player's screen
+                    worldY + gp.getTileSize() > gp.player.worldY - gp.player.screenY && worldY - gp.getTileSize() < gp.player.worldY + gp.player.screenY) {
+
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);  // background
+                if (overlayNum != -1) { // -1 means there is no overlay in that tile
+                    g2.drawImage(tile[overlayNum].image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);   // overlay
+                }
             }
-            col++;
+            // fills the tile. First with the background (mapTileNumber), and then the overlay above it
+            worldCol++;
 
-            x += gp.getTileSize();
 
-            if (col == gp.maxScreenCol) {
-                col = 0;
-                x = 0;
-                row++;
-                y += gp.getTileSize();
+            if (worldCol == gp.maxWorldCol) {
+                worldCol = 0;
+                worldRow++;
             }
         }
     }
