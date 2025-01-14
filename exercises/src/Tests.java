@@ -1,8 +1,22 @@
+import java.util.Scanner;
+
 public class Tests {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String number = scanner.nextLine();
+        int x;
+        try {
+            x = Integer.parseInt(number);
+        } catch (NumberFormatException e) {
+            System.out.println(e + " can't format to a number");
+            return;
+        }
+        System.out.println(x);
 
     }
+
+
     public static void checkNumber(int number) {
         if (number > 0) {
             System.out.println("positive");
